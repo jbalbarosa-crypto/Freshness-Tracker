@@ -1,7 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function Landing() {
+  const { isAuthenticated } = useAuth();
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
       {/* Hero Section */}
@@ -15,18 +18,29 @@ function Landing() {
             Keep your meat fresh and your customers happy. Track batch freshness with our intelligent QR-based system.
           </p>
           <div className="flex gap-4 justify-center">
-            <Link
-              to="/login"
-              className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition shadow-lg"
-            >
-              Sign In
-            </Link>
-            <Link
-              to="/register"
-              className="px-8 py-3 bg-white border-2 border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 font-medium transition"
-            >
-              Get Started
-            </Link>
+            {!isAuthenticated ? (
+              <>
+                <Link
+                  to="/login"
+                  className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition shadow-lg"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/register"
+                  className="px-8 py-3 bg-white border-2 border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 font-medium transition"
+                >
+                  Get Started
+                </Link>
+              </>
+            ) : (
+              <Link
+                to="/admin"
+                className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition shadow-lg"
+              >
+                Go to Dashboard
+              </Link>
+            )}
           </div>
         </div>
 

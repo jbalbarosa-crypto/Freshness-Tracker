@@ -235,7 +235,7 @@ function AdminPortal() {
                   </p>
                   <div className="bg-white p-2 rounded inline-block">
                     <QRCode
-                      value={`${window.location.origin}/batch/${batch.id}`}
+                      value={`${process.env.REACT_APP_PUBLIC_URL || window.location.origin}/batch/${batch.id}`}
                       size={120}
                     />
                   </div>

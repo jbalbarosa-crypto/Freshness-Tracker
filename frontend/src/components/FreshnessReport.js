@@ -58,12 +58,6 @@ function FreshnessReport() {
     return { emoji: "⛔", status: "Expired", color: "bg-red-100", textColor: "text-red-800" };
   };
 
-  const getFreshnessEmoji = (days) => {
-    if (days <= 2) return "🥩";
-    if (days <= 4) return "⚠️";
-    return "⛔";
-  };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
       <div className="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full transform transition hover:shadow-3xl">

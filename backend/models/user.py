@@ -1,10 +1,8 @@
 from sqlalchemy import Column, Integer, String, DateTime
-from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 import hashlib
 import secrets
-
-Base = declarative_base()
+from database import Base
 
 
 class User(Base):
