@@ -15,7 +15,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
 from database import engine, Base
-from api.routers import batches
+from api.routers import batches, auth, users
+from models.batch import Batch
+from models.user import User
 
 # Load environment variables from .env file
 load_dotenv()
@@ -39,6 +41,8 @@ def create_app() -> FastAPI:
     )
 
     # Include routers
+    app.include_router(auth.router)
+    app.include_router(users.router)
     app.include_router(batches.router)
 
     # Create database tables

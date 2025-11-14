@@ -48,6 +48,16 @@ function FreshnessReport() {
     );
   }
 
+  const getFreshnessStatus = (days) => {
+    if (days <= 2) {
+      return { emoji: "🥩", status: "Fresh", color: "bg-green-100", textColor: "text-green-800" };
+    }
+    if (days <= 4) {
+      return { emoji: "⚠️", status: "Caution", color: "bg-yellow-100", textColor: "text-yellow-800" };
+    }
+    return { emoji: "⛔", status: "Expired", color: "bg-red-100", textColor: "text-red-800" };
+  };
+
   const getFreshnessEmoji = (days) => {
     if (days <= 2) return "🥩";
     if (days <= 4) return "⚠️";
@@ -55,43 +65,92 @@ function FreshnessReport() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-      <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
-        <div className="text-center">
-          <div className="text-6xl mb-4">
-            {getFreshnessEmoji(batch.days_on_shelf)}
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+      <div className="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full transform transition hover:shadow-3xl">
+        {/* Product Emoji */}
+        <div className="text-center mb-6">
+          <div className="text-6xl mb-4 animate-bounce">
+            {batch.product === "Chicken"
+              ? "🍗"
+              : batch.product === "Beef"
+              ? "🥩"
+              : batch.product === "Pork"
+              ? "🍖"
+              : "🦐"}
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            {batch.product}
-          </h1>
-          <p className="text-gray-600">Freshness Report</p>
+          <h1 className="text-3xl font-bold text-gray-900">{batch.product}</h1>
+          <p className="text-gray-600 mt-1">Freshness Report</p>
         </div>
 
-        <div className="mt-8 space-y-6">
-          <div className="bg-blue-50 p-4 rounded-lg text-center">
-            <div className="text-sm font-medium text-blue-800">
-              Days on Shelf
+        {/* Freshness Status */}
+        <div className="mb-6">
+          <div
+            className={`${getFreshnessStatus(batch.days_on_shelf).color} ${getFreshnessStatus(batch.days_on_shelf).textColor} p-6 rounded-lg text-center`}
+          >
+            <div className="text-4xl mb-2">
+              {getFreshnessStatus(batch.days_on_shelf).emoji}
             </div>
-            <div className="text-3xl font-bold text-blue-900">
-              {batch.days_on_shelf}
+            <div className="text-2xl font-bold mb-2">
+              {getFreshnessStatus(batch.days_on_shelf).status}
             </div>
-          </div>
-
-          <div className="space-y-4">
-            <div className="flex justify-between">
-              <span className="text-gray-600">Butchered On:</span>
-              <span className="font-medium">{batch.butcher_date}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-600">Arrived in Store:</span>
-              <span className="font-medium">{batch.arrival_date}</span>
-            </div>
+            <p className="text-sm">
+              {batch.days_on_shelf <= 2
+                ? "Product is fresh and ready to consume"
+                : batch.days_on_shelf <= 4
+                ? "Product should be consumed soon"
+                : "Product is past expiration"}
+            </p>
           </div>
         </div>
 
-        <div className="mt-8 text-center">
-          <p className="text-xs text-gray-400">
-            Thank you for checking freshness with us!
+        {/* Days Counter */}
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-lg text-center mb-6">
+          <div className="text-sm font-medium text-blue-800 mb-2">Days on Shelf</div>
+          <div className="text-5xl font-bold text-blue-900">{batch.days_on_shelf}</div>
+          <div className="text-xs text-blue-600 mt-2">
+            {batch.days_on_shelf === 1 ? "1 day ago" : `${batch.days_on_shelf} days ago`}
+          </div>
+        </div>
+
+        {/* Details */}
+        <div className="bg-gray-50 p-6 rounded-lg mb-6 space-y-4">
+          <div className="border-b pb-4">
+            <p className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
+              Butcher Date
+            </p>
+            <p className="text-lg font-semibold text-gray-900 mt-1">
+              {new Date(batch.butcher_date).toLocaleDateString("en-US", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </p>
+          </div>
+          <div>
+            <p className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
+              Store Arrival
+            </p>
+            <p className="text-lg font-semibold text-gray-900 mt-1">
+              {new Date(batch.arrival_date).toLocaleDateString("en-US", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </p>
+          </div>
+        </div>
+
+        {/* Batch ID */}
+        <div className="text-center text-xs text-gray-500">
+          <p>Batch ID: {batch.id}</p>
+        </div>
+
+        {/* Footer Message */}
+        <div className="mt-8 pt-6 border-t text-center">
+          <p className="text-xs text-gray-500">
+            Thank you for checking freshness with us! 🙏
           </p>
         </div>
       </div>
