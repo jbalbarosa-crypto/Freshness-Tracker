@@ -8,6 +8,7 @@ const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 function AdminPortal() {
   const { user } = useAuth();
   const [batches, setBatches] = useState([]);
+  const [publicUrl, setPublicUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
@@ -22,6 +23,13 @@ function AdminPortal() {
 
   useEffect(() => {
     fetchBatches();
+    // fetch dynamic public URL for QR codes
+    axios
+      .get(`${API_URL}/config/public`)
+      .then((res) => setPublicUrl(res.data?.public_url))
+      .catch(() => {
+        // ignore; will fall back to env/origin
+      });
   }, []);
 
   const fetchBatches = async () => {
@@ -235,7 +243,7 @@ function AdminPortal() {
                   </p>
                   <div className="bg-white p-2 rounded inline-block">
                     <QRCode
-                      value={`${process.env.REACT_APP_PUBLIC_URL || window.location.origin}/batch/${batch.id}`}
+                      value={`${publicUrl || process.env.REACT_APP_PUBLIC_URL || window.location.origin}/batch/${batch.id}`}
                       size={120}
                     />
                   </div>
