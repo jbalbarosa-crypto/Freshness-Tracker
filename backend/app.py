@@ -58,14 +58,6 @@ if __name__ == "__main__":
     host = os.getenv("HOST", "0.0.0.0")
     port = int(os.getenv("PORT", "8000"))
     reload = os.getenv("RELOAD", "True").lower() == "true"
-    ssl_keyfile = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "dev.key"))
-    ssl_certfile = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "dev.crt"))
 
-    uvicorn.run(
-        "app:app",
-        host=host,
-        port=port,
-        reload=reload,
-        ssl_keyfile=ssl_keyfile,
-        ssl_certfile=ssl_certfile
-    )
+    # Run without SSL for HTTP
+    uvicorn.run("app:app", host=host, port=port, reload=reload)

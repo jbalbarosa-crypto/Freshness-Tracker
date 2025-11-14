@@ -1,0 +1,78 @@
+{
+  "info": {
+    "name": "Freshness Tracker API",
+    "description": "Postman collection for testing Freshness Tracker backend endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Register User",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"testuser@example.com\",\n  \"password\": \"testpassword\",\n  \"full_name\": \"Test User\"\n}"
+        },
+        "url": {
+          "raw": "http://192.168.141.171:8000/auth/register",
+          "protocol": "http",
+          "host": ["192.168.141.171"],
+          "port": "8000",
+          "path": ["auth", "register"]
+        }
+      }
+    },
+    {
+      "name": "Login User",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"testuser@example.com\",\n  \"password\": \"testpassword\"\n}"
+        },
+        "url": {
+          "raw": "http://192.168.141.171:8000/auth/login",
+          "protocol": "http",
+          "host": ["192.168.141.171"],
+          "port": "8000",
+          "path": ["auth", "login"]
+        }
+      }
+    },
+    {
+      "name": "Get Batches",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://192.168.141.171:8000/batches/",
+          "protocol": "http",
+          "host": ["192.168.141.171"],
+          "port": "8000",
+          "path": ["batches", ""]
+        }
+      }
+    },
+    {
+      "name": "Get Current User",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{access_token}}" }
+        ],
+        "url": {
+          "raw": "http://192.168.141.171:8000/users/me",
+          "protocol": "http",
+          "host": ["192.168.141.171"],
+          "port": "8000",
+          "path": ["users", "me"]
+        }
+      }
+    }
+  ]
+}
